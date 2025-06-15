@@ -15,6 +15,9 @@ app.get('/', (req, res) => {
 // importing routes 
 import userRoutes from "./routes/user.js";
 
+//middleware
+app.use(express.json()); // to parse JSON bodies
+
 // using routes
 app.use('/api', userRoutes);
 
