@@ -77,5 +77,7 @@ export const loginUser = async (req, res) => {
 }
 
 export const userProfile = async (req, res) => {
-    const user = await User.findbyId();
+    const user = await User.findById(req.user._id);
+
+    res.json({ user })
 }
