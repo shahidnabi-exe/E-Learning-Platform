@@ -1,28 +1,27 @@
-import jwt from "jsonwebtoken";
-import { User } from "../models/user.js";
+import jwt from 'jsonwebtoken';
+import { User } from '../models/user.js';
 
-export const isAuth = async(req, res, next) => {
-    try{
-        const token = req.headers.token;
+export const isAuth = async (req, res, next) => {
+    try {
+        console.log("HEADERS RECEIVED:", req.headers); // 👈 Add this line
 
-        if(!token) {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return res.status(401).json({
-                message: "No token provided, please login first",
+                message: "No token provided, authorization denied",
             });
         }
 
-        const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+        const token = authHeader.split(" ")[1];
 
-        req.user = await User.findById(decodedData._id)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+        req.user = await User.findById(decoded._id);
         next();
-
-    }  catch(error) {
+    } catch (error) {
         return res.status(500).json({
-            message:"Login first",
+            message: error.message,
         });
     }
-    
-
-
-}
+};
