@@ -14,12 +14,16 @@ app.get('/', (req, res) => {
 
 // importing routes 
 import userRoutes from "./routes/user.js";
+import courseRoutes from './routes/course.js';
+import adminRoutes from './routes/admin.js';
 
 //middleware
 app.use(express.json()); // to parse JSON bodies
 
 // using routes
 app.use('/api', userRoutes);
+app.use('/api', courseRoute);
+app.use('/api', adminRoute);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
