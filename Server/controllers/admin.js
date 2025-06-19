@@ -1,5 +1,7 @@
 
-import { Courses } from '../models/Course.js';
+import { Courses } from '../models/courses.js';
+import { isAuth } from '../middlewares/isAuth.js';
+import { uploadFiles } from '../middlewares/multer.js';
 
 export const createCourse = async (req, res) => {
     const { title, description, price, category, duration, createdBy } = req.body;
@@ -15,4 +17,9 @@ export const createCourse = async (req, res) => {
         createdBy,
         image: image?.path, // Assuming image.path contains the path to the uploaded image
     });
+
+    res.status(201).json({
+        message: "Course created successfully",
+       
+    })
 }

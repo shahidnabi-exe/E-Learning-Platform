@@ -22,8 +22,8 @@ app.use(express.json()); // to parse JSON bodies
 
 // using routes
 app.use('/api', userRoutes);
-app.use('/api', courseRoute);
-app.use('/api', adminRoute);
+app.use('/api', courseRoutes);
+app.use('/api', adminRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
