@@ -6,4 +6,6 @@ import { uploadFiles } from '../middlewares/multer.js';
 const router = express.Router();
 
 router.post ('/course/new', isAuth, isAdmin, uploadFiles, createCourse)
+// router.post('/course/new', uploadFiles, isAuth, isAdmin, createCourse);
+
 export default router;
