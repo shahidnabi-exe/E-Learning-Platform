@@ -1,36 +1,65 @@
-
-import { Courses } from '../models/courses.js';
-import { isAuth } from '../middlewares/isAuth.js';
-import { uploadFiles } from '../middlewares/multer.js';
+import { Course } from '../models/course.js';
 
 export const createCourse = async (req, res) => {
   try {
-    console.log("BODY:", req.body);  // Debug: Should not be undefined
-    console.log("FILE:", req.file);  // Debug: Should show uploaded file
-
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({ message: "Missing form fields in body" });
-    }
-
-    const { title, description, price, category, duration, createdBy } = req.body;
+    const { title, description, instructor, duration, category, price, createdBy } = req.body;
 
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.status(400).json({ message: "Thumbnail image is required" });
     }
 
-    const course = await Courses.create({
+    const image = req.file.path;
+
+    const course = new Course({
       title,
       description,
-      price,
-      category,
+      instructor,
+      image,
       duration,
+      category,
+      price,
       createdBy,
-      image: req.file.path,
     });
 
-    return res.status(201).json({ message: "Course created", course });
+    await course.save();
+
+    res.status(201).json({
+      message: "Course created successfully",
+      course
+    });
+
   } catch (error) {
-    console.error("🔥 Error in createCourse:", error);
-    return res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.json({ courses });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getCourseById = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+    if (!course) return res.status(404).json({ message: "Course not found" });
+
+    res.json({ course });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findByIdAndDelete(req.params.id);
+    if (!course) return res.status(404).json({ message: "Course not found" });
+
+    res.json({ message: "Course deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
