@@ -9,8 +9,11 @@ const app = express();
 const port = process.env.PORT;
 
 app.get('/', (req, res) => {
-    res.send('hello world');
+    res.send('Server is running');
 })
+
+app.use("/uploads", express.static("uploads")); // to serve static files from the uploads directory
+
 
 // importing routes 
 import userRoutes from "./routes/user.js";
