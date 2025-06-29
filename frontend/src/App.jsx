@@ -6,6 +6,7 @@ import Header from './Components/Header/Header';
 import Login from './Pages/Auth/Login';
 import Register from './Pages/Auth/Register';
 import Verify from './Pages/Auth/Verify';
+import Footer from './Components/Footer/Footer';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path='/register' element= {<Register />} />
           <Route path='/verify' element= {<Verify />} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   )
