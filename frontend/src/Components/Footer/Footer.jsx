@@ -9,7 +9,7 @@ function Footer() {
     <footer>
         <div className="footer-content">
             <p>
-                &copy: 2025 Your E-Learning Platform. All rights reserved. <br /> Made with ❤ < a href=''> Shahid Nabi</a>
+                &copy; 2025 Your E-Learning Platform. All rights reserved. <br /> Made with ❤ <a href=''> Shahid Nabi</a>
             </p>
 
             <div className="social-links">
