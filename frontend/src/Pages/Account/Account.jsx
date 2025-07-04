@@ -1,11 +1,13 @@
 import React from 'react'
 import { MdDashboard } from "react-icons/md";
+import './account.css'
 
 function Account() {
   return (
     <div className="profile">
         <div className="profile-info">
             
+            <h2>My Profile</h2>
             <p>
                 <strong>Name - Shahid</strong>
             </p>

@@ -9,9 +9,12 @@ import Verify from './Pages/Auth/Verify';
 import Footer from './Components/Footer/Footer';
 import About from './Pages/About/About';
 import Account from './Pages/Account/Account';
+import { UserData } from './Context/UserContext';
 
 
 function App() {
+  const {user} = UserData();
+  console.log(user);
   return (
     <>
       <BrowserRouter>
