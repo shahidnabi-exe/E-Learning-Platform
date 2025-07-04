@@ -13,19 +13,18 @@ import { UserData } from './Context/UserContext';
 
 
 function App() {
-  // const {user} = UserData();
-  // console.log(user);
+  const {isAuth, user } = UserData();
   return (
     <>
       <BrowserRouter>
-        <Header/>
+        <Header isAuth = {isAuth}/>
         <Routes> 
           <Route path='/' element= {<Home/>} />
           <Route path='/about' element= {<About/>} />
-          <Route path='/account' element= {<Account/>} />
-          <Route path='/login' element= {<Login />} />
-          <Route path='/register' element= {<Register />} />
-          <Route path='/verify' element= {<Verify />} />
+          <Route path='/account' element= { isAuth ? <Account user = {user}/> : <Login/>} />
+          <Route path='/login' element= { isAuth ? <Home/> : <Login />} />
+          <Route path='/register' element= { isAuth ? <Home/> : <Register />} />
+          <Route path='/verify' element= { isAuth ? <Home/> : <Verify />} />
         </Routes>
         <Footer/>
       </BrowserRouter>

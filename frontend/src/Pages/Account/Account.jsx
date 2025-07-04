@@ -2,18 +2,20 @@ import React from 'react'
 import { MdDashboard } from "react-icons/md";
 import './account.css'
 
-function Account() {
+function Account({user}) {
   return (
-    <div className="profile">
+    <div>
+    { user &&  (
+        <div className="profile">
         <div className="profile-info">
             
             <h2>My Profile</h2>
             <p>
-                <strong>Name - Shahid</strong>
+                <strong>Name - {user.name}</strong>
             </p>
 
             <p>
-                <strong>Email - Shahid@123</strong>
+                <strong>Email - {user.email}</strong>
             </p>
 
             <button className='common-btn'>
@@ -22,6 +24,8 @@ function Account() {
             </button>
             
         </div>
+        </div>
+    )}
     </div>
   )
 }
