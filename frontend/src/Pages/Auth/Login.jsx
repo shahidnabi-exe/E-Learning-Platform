@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import './Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserData } from '../../Context/UserContext';
 
 function Login() {
   const navigate = useNavigate();
-  const 
+  const  {btnLoading, loginUser} = UserData()
   const[email, setEmail] = useState('')
   const[password, setPassword] = useState('')
 
   const submitHandler = async(e) => {
     e.preventDefault();
+    await loginUser(email, password, navigate)
   }
 
   return (
@@ -29,7 +31,9 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)} 
                 required />
 
-                <button type='submit' className="common-btn"> Login </button>
+                <button disabled = {btnLoading} type='submit' className="common-btn"> 
+                  {btnLoading ? "Please Wait" : "Login"}  
+                 </button>
             </form>
             <p>
                 Don't have an Account? <Link to='/register'> Register </Link>
