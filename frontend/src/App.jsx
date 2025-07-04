@@ -13,8 +13,8 @@ import { UserData } from './Context/UserContext';
 
 
 function App() {
-  const {user} = UserData();
-  console.log(user);
+  // const {user} = UserData();
+  // console.log(user);
   return (
     <>
       <BrowserRouter>
