@@ -10,6 +10,7 @@ import Footer from './Components/Footer/Footer';
 import About from './Pages/About/About';
 import Account from './Pages/Account/Account';
 import { UserData } from './Context/UserContext';
+import Courses from './Pages/Courses/Courses';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Routes> 
           <Route path='/' element= {<Home/>} />
           <Route path='/about' element= {<About/>} />
+          <Route path='/courses' element= {<Courses/>} />
           <Route path='/account' element= { isAuth ? <Account user = {user}/> : <Login/>} />
           <Route path='/login' element= { isAuth ? <Home/> : <Login />} />
           <Route path='/register' element= { isAuth ? <Home/> : <Register />} />

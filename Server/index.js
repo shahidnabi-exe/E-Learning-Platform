@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./database/db.js";
+import path from 'path';
 
 dotenv.config();
 
@@ -12,7 +13,8 @@ app.get('/', (req, res) => {
     res.send('Server is running');
 })
 
-app.use("/uploads", express.static("uploads")); // to serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+// app.use("/uploads", express.static("uploads")); // to serve static files from the uploads directory
 
 
 // importing routes 
