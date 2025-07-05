@@ -1,8 +1,23 @@
 import React from 'react'
 import { MdDashboard } from "react-icons/md";
 import './account.css'
+import { IoMdLogOut } from "react-icons/io";
+import { UserData } from '../../Context/UserContext';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 
 function Account({user}) {
+    const { setIsAuth, setUser } = UserData();
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+        localStorage.clear()
+        setUser([])
+        setIsAuth(false)
+        toast.success("Logged Out Successfully")
+        navigate('/login')
+    }
   return (
     <div>
     { user &&  (
@@ -17,6 +32,13 @@ function Account({user}) {
             <p>
                 <strong>Email - {user.email}</strong>
             </p>
+
+            <button onClick={logoutHandler} className='common-btn'style={{ background: 'red' }}>
+                <IoMdLogOut/>
+                Logout
+            </button>
+
+            <br />
 
             <button className='common-btn'>
                 <MdDashboard/>
