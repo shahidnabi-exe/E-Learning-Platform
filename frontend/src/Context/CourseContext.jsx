@@ -7,9 +7,9 @@ const CourseContext = createContext()
 export const CourseContextProvider = ( { children }) => {
     const [courses, setCourses] = useState([])
 
-    async function fetchCourse() {
+    async function fetchCourses() {
         try{
-            const { data } = await axios.get(`${server}/api/course/${id}`)
+            const { data } = await axios.get(`${server}/api/course/all`)
 
             setCourses(data.courses)
 
@@ -21,7 +21,7 @@ export const CourseContextProvider = ( { children }) => {
     async function fetchMyCourse() {
         try{
             const { data } = await axios.get(`${server}/api/mycourse`)
-m
+
         }catch(error) {
             console.log(error);
         }

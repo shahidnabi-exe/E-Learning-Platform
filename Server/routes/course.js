@@ -12,7 +12,7 @@ router.get('/lectures/:id', isAuth, fetchLectures)
 
 router.get('/lecture/:id', isAuth, fetchLectures)
 
-router.get('/mycourse', isAuth, getMyCourses)
+// router.get('/mycourse', isAuth, getMyCourses)
 
 
 
