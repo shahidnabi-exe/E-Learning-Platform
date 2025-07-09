@@ -2,6 +2,7 @@ import { Course } from '../models/course.js';
 import { Lecture } from '../models/lecture.js';
 import { rm } from 'fs'
 import { promisify } from 'util';
+import fs from 'fs';
 
 export const createCourse = async (req, res) => {
   try {
@@ -85,15 +86,36 @@ export const deleteLecture = async(req, res) => {
   res.json({ message: " Lecture deleted "});
 }
 
+const unlinkAsync = promisify(fs.unlink)
+
 export const deleteCourse = async (req, res) => {
   const course = await Course.findById(req.params.id)
 
   const lectures = await Lecture.find({course: course._id})
 
   await Promise.all(
-    lectures.map( async(lecture) => {
-      await 
+    lectures.map( async(lecture) => { 
+      await unlinkAsync(lecture.video);
+      console.log('video deletedd ');
+
     })
   )
 
+  rm(course.image, () => {
+    console.log('image deleted');
+  })
+
+  await Lecture.find({course: req.params.id}).deleteMany()
+
+  await course.deleteOne();
+
+  res.json({
+    message: "Course Deleted",
+  })
+
 }
+
+// export const getAllStats = async(req, res) => {
+//   // const totalCourses = 
+// }
+

@@ -52,3 +52,11 @@ export const fetchLecture = async(req, res) => {
 
     res.json({ lecture });
 }
+
+export const getMyCourses = async(req, res) => {
+  const courses = await Course.find({ _id: req.user.subscription });
+
+  res.json({
+    courses,
+  })
+}
