@@ -33,16 +33,16 @@ function Account({user}) {
                 <strong>Email - {user.email}</strong>
             </p>
 
-            <button onClick={logoutHandler} className='common-btn'style={{ background: 'red' }}>
-                <IoMdLogOut/>
-                Logout
-            </button>
-
-            <br />
-
             <button className='common-btn'>
                 <MdDashboard/>
                 Dashboard
+            </button>
+            
+            <br />
+
+             <button onClick={logoutHandler} className='common-btn'style={{ background: 'red' }}>
+                <IoMdLogOut/>
+                Logout
             </button>
             
         </div>

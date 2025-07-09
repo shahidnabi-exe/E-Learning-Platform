@@ -11,6 +11,7 @@ import About from './Pages/About/About';
 import Account from './Pages/Account/Account';
 import { UserData } from './Context/UserContext';
 import Courses from './Pages/Courses/Courses';
+import Dashboard from './Pages/Dashboard/Dashboard';
 
 
 function App() {
@@ -27,6 +28,9 @@ function App() {
           <Route path='/login' element= { isAuth ? <Home/> : <Login />} />
           <Route path='/register' element= { isAuth ? <Home/> : <Register />} />
           <Route path='/verify' element= { isAuth ? <Home/> : <Verify />} />
+          <Route path='/dashboard' element= { isAuth ? <Dashboard/> : <Verify />} />
+
+
         </Routes>
         <Footer/>
       </BrowserRouter>

@@ -1,0 +1,18 @@
+.dashboard {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  min-height: 80vh;
+}
+
+.dashboard h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.course-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}

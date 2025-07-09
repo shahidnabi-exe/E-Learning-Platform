@@ -7,6 +7,8 @@ const CourseContext = createContext()
 export const CourseContextProvider = ( { children }) => {
     const [courses, setCourses] = useState([])
     const [myCourse, setMyCourse] = useState([])
+
+
     async function fetchCourses() {
         try{
             const { data } = await axios.get(`${server}/api/course/all`)
@@ -31,9 +33,10 @@ export const CourseContextProvider = ( { children }) => {
     async function fetchMyCourse() { 
         try{
             const { data } = await axios.get(`${server}/api/mycourse`, {
-                header: {
-                    token: localStorage.getItem('token'),
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('token')}`
                 }
+
             })
             setMyCourse(data.myCourse)
         }catch(error) {
