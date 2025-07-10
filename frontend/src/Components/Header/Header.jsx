@@ -7,18 +7,19 @@ const Header = ({ isAuth }) => {
     <header>
       <Link to="/" className="logo"> E-Learning </Link>
       <div className='link'>
-        <Link to="/">Home</Link>
-        <Link to="/courses">Courses</Link>
-        <Link to="/about">About</Link>
-        {isAuth ? (
-          <>
-            <Link to="/account">Account</Link>
-            <Link to="/dashboard">Dashboard</Link> {/* ✅ Now it's added */}
+        <Link to={'/'}>Home</Link>
+        <Link to={'/courses'}>Courses</Link>
+        <Link to={'/about'}>About</Link>
+        { isAuth ? (
+          <>  
+            <Link to='/account'>Account</Link>
+            <Link to='/dashboard'>Dashboard</Link>
           </>
-        ) : (
-          <Link to="/login">Login</Link>
+        ) : ( 
+          <Link to='/login'>Login</Link>
         )}
-      </div>
+    </div>
+
     </header>
   )
 }

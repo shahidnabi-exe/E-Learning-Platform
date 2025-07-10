@@ -33,11 +33,11 @@ function Account({user}) {
                 <strong>Email - {user.email}</strong>
             </p>
 
-            <button className='common-btn'>
+            <button onClick={() => navigate('/dashboard')} className='common-btn'>
                 <MdDashboard/>
                 Dashboard
             </button>
-            
+
             <br />
 
              <button onClick={logoutHandler} className='common-btn'style={{ background: 'red' }}>
