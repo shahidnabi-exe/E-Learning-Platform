@@ -7,7 +7,7 @@ export const register = async (req, res) => {
         const { email, name, password } = req.body;
 
         // Check if user already exists
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ email });   
 
         if (user) {
             return res.status(400).json({
@@ -31,6 +31,23 @@ export const register = async (req, res) => {
             message: "User registered successfully",
         });
 
+
+        const otp =  Math.floor(Math.random() * 1000000);
+
+        const activationToken = jwt.sign(
+            {
+                user,
+                otp,
+            },
+            process.env.Activation_Secret,
+            {
+                expiresIn: "5m",
+            }
+        );
+
+        const data = {
+            name, otp,
+        };
     } catch (error) {
         res.status(500).json({
             message: error.message,
