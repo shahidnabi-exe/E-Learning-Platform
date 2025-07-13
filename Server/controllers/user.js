@@ -1,6 +1,7 @@
 import { User } from '../models/user.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
+import sendMail from '../middlewares/sendMail.js';
 
 export const register = async (req, res) => {
     try {
@@ -48,6 +49,17 @@ export const register = async (req, res) => {
         const data = {
             name, otp,
         };
+
+        await sendMail(
+            email,
+            "E Learning ",
+            data    
+        )
+
+        res.status(200).json({
+            message: "Otp send to your email ",
+            activationToken,
+        })
     } catch (error) {
         res.status(500).json({
             message: error.message,
