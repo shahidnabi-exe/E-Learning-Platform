@@ -28,12 +28,8 @@ export const register = async (req, res) => {
 
         await user.save();
 
-        res.status(201).json({
-            message: "User registered successfully",
-        });
-
-
-        const otp =  Math.floor(Math.random() * 1000000);
+        // Generate OTP and send email
+        const otp = Math.floor(Math.random() * 1000000);
 
         const activationToken = jwt.sign(
             {
@@ -46,26 +42,28 @@ export const register = async (req, res) => {
             }
         );
 
-        const data = {
-            name, otp,
-        };
+        const data = { name, otp };
 
         await sendMail(
             email,
-            "E Learning ",
-            data    
-        )
+            "E-Learning OTP Verification",
+            data
+        );
 
+        // ✅ Only one response at the end
         res.status(200).json({
-            message: "Otp send to your email ",
+            message: "User registered successfully. OTP sent to your email.",
             activationToken,
-        })
+        });
+
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             message: error.message,
         });
     }
 };
+
 
 export const loginUser = async (req, res) => {
     try {
