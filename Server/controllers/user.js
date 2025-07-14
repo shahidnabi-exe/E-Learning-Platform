@@ -64,6 +64,18 @@ export const register = async (req, res) => {
     }
 };
 
+export const verifyUser = async(req, res) => {
+    try {
+        const {otp, activationToken} = req.body
+
+        const verify = jwt.verify(activationToken, process.env.Activation_Secret)
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+}
 
 export const loginUser = async (req, res) => {
     try {
