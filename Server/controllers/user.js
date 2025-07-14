@@ -70,6 +70,26 @@ export const verifyUser = async(req, res) => {
 
         const verify = jwt.verify(activationToken, process.env.Activation_Secret)
 
+        if(!verify) 
+            return res.status(400).json({
+                message:" OTP Expired",
+        })
+
+        if(verify.otp !== otp) 
+            return res.status(400).json({
+                message:" OTP Wrong",
+            })
+
+            await User.create({
+                name: verify.user.name,
+                email: verify.user.email,
+                password: verify.user.password,
+            })
+
+            res.json({
+                message: 'User Registered ',
+            })
+        
     } catch (error) {
         res.status(500).json({
             message: error.message,
