@@ -4,65 +4,56 @@ import jwt from "jsonwebtoken"
 import sendMail from '../middlewares/sendMail.js';
 
 export const register = async (req, res) => {
-    try {
-        const { email, name, password } = req.body;
+  try {
+    const { email, name, password } = req.body;
 
-        // Check if user already exists
-        let user = await User.findOne({ email });   
-
-        if (user) {
-            return res.status(400).json({
-                message: "User already exists",
-            });
-        }
-
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create and save user
-        user = new User({
-            name,
-            email,
-            password: hashedPassword,
-        });
-
-        await user.save();
-
-        // Generate OTP and send email
-        const otp = Math.floor(Math.random() * 1000000);
-
-        const activationToken = jwt.sign(
-            {
-                user,
-                otp,
-            },
-            process.env.Activation_Secret,
-            {
-                expiresIn: "5m",
-            }
-        );
-
-        const data = { name, otp };
-
-        await sendMail(
-            email,
-            "E-Learning OTP Verification",
-            data
-        );
-
-        // ✅ Only one response at the end
-        res.status(200).json({
-            message: "User registered successfully. OTP sent to your email.",
-            activationToken,
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            message: error.message,
-        });
+    // Check if user already exists
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user object (not saved yet)
+    user = new User({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    // Generate OTP and token
+    const otp = Math.floor(Math.random() * 1000000);
+    const activationToken = jwt.sign(
+      {
+        user,
+        otp,
+      },
+      process.env.Activation_Secret,
+      { expiresIn: "5m" }
+    );
+
+    const data = { name, otp };
+
+    // Send email first
+    await sendMail(email, "E-Learning OTP", data);
+
+    // Respond to frontend
+    return res.status(200).json({
+      message: "User registered successfully. OTP sent to your email.",
+      activationToken,
+    });
+
+  } catch (error) {
+    console.error("Registration Error:", error.message);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
 };
+
 
 export const verifyUser = async(req, res) => {
     try {
