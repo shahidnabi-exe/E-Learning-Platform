@@ -3,6 +3,7 @@ import { Lecture } from '../models/lecture.js';
 import { rm } from 'fs'
 import { promisify } from 'util';
 import fs from 'fs';
+import {User} from '../models/user.js'
 
 export const createCourse = async (req, res) => {
   try {
@@ -109,13 +110,27 @@ export const deleteCourse = async (req, res) => {
 
   await course.deleteOne();
 
+  await User.updataMany({}, { $pull:{ subscription: req.params.id } } );
+
   res.json({
     message: "Course Deleted",
   })
 
 }
 
-// export const getAllStats = async(req, res) => {
-//   // const totalCourses = 
-// }
+export const getAllStats = async(req, res) => {
+  const totalCourses = (await Course.find()).length;
+  const totalLectures = (await Lecture.find()).length;
+  const totalUsers = (await User.find()).length;
+
+  const stats = {
+    totalCourses,
+    totalLectures,
+    totalUsers,
+  }
+
+  res.json({
+    stats,
+  })
+}
 
