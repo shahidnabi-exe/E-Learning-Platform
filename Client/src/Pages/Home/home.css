@@ -26,6 +26,11 @@
             }   
         }
 
+        h2{
+            font-size: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+        }
         button {
             padding: 12px 24px;
         }

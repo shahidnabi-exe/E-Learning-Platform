@@ -43,7 +43,9 @@ function Register() {
                 required />
 
                 <button type= 'submit' disabled ={btnLoading}
-                 className="common-btn"> { btnLoading ? " Please Wait..." : "Register" } </button>
+                 className="common-btn"> { btnLoading ? " Please Wait..." : "Register" } 
+                </button>
+                
             </form>
             <p>
                 Already have an Account? <Link to='/login'> Login </Link>

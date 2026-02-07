@@ -5,7 +5,7 @@ const UserContext = createContext();
 import toast, {Toaster} from 'react-hot-toast';
 
 export const UserContextProvider = ({ children }) => {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const[btnLoading, setBtnLoading] = useState(false);
     const[loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ export const UserContextProvider = ({ children }) => {
             setIsAuth(true);
             setBtnLoading(false);
             navigate('/')
-        } catch(error) {
+        } catch(error) {    
             setBtnLoading(false);
             setIsAuth(false);
 
@@ -47,7 +47,7 @@ export const UserContextProvider = ({ children }) => {
             });
  
             toast.success(data.message);
-            localStorage.setItem('token', data.token);
+            // localStorage.setItem('token', data.token);
             setBtnLoading(false);
             navigate('/login')
         } catch(error) {
@@ -87,9 +87,9 @@ export const UserContextProvider = ({ children }) => {
     return <UserContext.Provider 
         value = {{ user, setUser, setIsAuth, isAuth, loginUser, btnLoading, loading, registerUser,
         }}>
-            {children} 
+            {children}  
             <Toaster/>
-        </UserContext.Provider>
+    </UserContext.Provider>
 }
 
 export const UserData= () => useContext(UserContext);

@@ -49,7 +49,9 @@ export const CourseContextProvider = ( { children }) => {
         fetchMyCourse()
     }, [])
     
-    return <CourseContext.Provider value={{courses, fetchCourses, fetchCourse, myCourse, fetchMyCourse}} > {children} </CourseContext.Provider>
+    return <CourseContext.Provider value={{courses, fetchCourses, fetchCourse, myCourse, fetchMyCourse}} >
+        {children} 
+        </CourseContext.Provider>
 }
 
 export const CourseData = () => useContext(CourseContext);

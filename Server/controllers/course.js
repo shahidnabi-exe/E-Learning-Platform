@@ -37,7 +37,8 @@ export const fetchLectures = async(req, res) => {
 }
 
 export const fetchLecture = async(req, res) => {
-    const lecture = await Lecture.findById(req.params.id);
+    
+    const lecture = await Lecture.findById(req.params.id).populate("course");    
 
     const user = await User.findById(req.user._id);
 
@@ -45,10 +46,11 @@ export const fetchLecture = async(req, res) => {
         return res.json({ lecture })
     }
 
-    if(!user.subscription.includes(req.params.id))
-        return res.status(400).json({
-            message: " You haven't subscribed to this course",
+    if (!user.subscription.includes(lecture.course._id.toString())) {
+        return res.status(403).json({
+            message: "You haven't subscribed to this course",
         });
+    }
 
     res.json({ lecture });
 }

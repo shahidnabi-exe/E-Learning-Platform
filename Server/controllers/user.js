@@ -34,7 +34,7 @@ export const register = async (req, res) => {
       process.env.Activation_Secret,
       { expiresIn: "5m" }
     );
-
+    
     const data = { name, otp };
 
     // Send email first
@@ -71,16 +71,16 @@ export const verifyUser = async(req, res) => {
                 message:" OTP Wrong",
             })
 
-            await User.create({
-                name: verify.user.name,
-                email: verify.user.email,
-                password: verify.user.password,
-            })
+        await User.create({
+            name: verify.user.name,
+            email: verify.user.email,
+            password: verify.user.password,
+        })
 
-            res.json({
-                message: 'User Registered ',
-            })
-        
+        res.json({
+            message: 'User Registered ',
+        })
+    
     } catch (error) {
         res.status(500).json({
             message: error.message,
@@ -109,9 +109,13 @@ export const loginUser = async (req, res) => {
             });
         }
 
-        const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET, {
+        const token = await jwt.sign({
+            _id: user._id
+            }, 
+            process.env.JWT_SECRET, 
+            {
             expiresIn: '15d',
-        });
+            });
 
         res.json({
             message: `Welcome back ${user.name}`,

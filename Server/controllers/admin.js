@@ -110,7 +110,7 @@ export const deleteCourse = async (req, res) => {
 
   await course.deleteOne();
 
-  await User.updataMany({}, { $pull:{ subscription: req.params.id } } );
+  await User.updateMany({}, { $pull:{ subscription: req.params.id } } );
 
   res.json({
     message: "Course Deleted",
