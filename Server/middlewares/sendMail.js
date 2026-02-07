@@ -1,12 +1,20 @@
 import { createTransport } from 'nodemailer'
 
+
+console.log("ENV CHECK →", {
+  user: process.env.GMAIL_USER,
+  pass: process.env.GMAIL_APP_PASSWORD,
+});
+
+
 const sendEmail = async(email, subject, data) => { 
     const transport = createTransport({
         host: 'smtp.gmail.com',
         port: 465,
+        service:'gmail',
         auth: {
-            user: process.env.Gmail,
-            pass: process.env.Password,
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD, 
         },
     });
 
@@ -59,7 +67,7 @@ const sendEmail = async(email, subject, data) => {
 `;
 
     await transport.sendMail({
-        from: process.env.Gmail,
+        from: process.env.GMAIL_USER,
         to: email,
         subject,
         html
