@@ -24,9 +24,8 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
     });
-
     await user.save();
-
+    
     // Generate JWT token
     const token = jwt.sign(
       { _id: user._id },
