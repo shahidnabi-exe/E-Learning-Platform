@@ -3,7 +3,7 @@ import './Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserData } from '../../Context/UserContext';
 
-function Login() {
+function Login() { 
   const navigate = useNavigate();
   const  {btnLoading, loginUser} = UserData()
   const[email, setEmail] = useState('')

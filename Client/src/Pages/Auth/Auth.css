@@ -103,3 +103,11 @@
 .auth-form a:hover {
   text-decoration: underline;
 }
+.role-selector {
+  margin-bottom: 15px;
+}
+
+.role-selector label {
+  font-weight: 500;
+  cursor: pointer;
+}
