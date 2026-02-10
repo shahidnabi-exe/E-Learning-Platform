@@ -12,10 +12,14 @@ import Account from './Pages/Account/Account';
 import { UserData } from './Context/UserContext';
 import Courses from './Pages/Courses/Courses';
 import Dashboard from './Pages/Dashboard/Dashboard';
+import { Navigate } from "react-router-dom";
+import AdminDashboard from "./Pages/Dashboard/AdminDashboard";
+import { AdminData } from "./Context/AdminContext";
 
 
 function App() {
   const {isAuth, user } = UserData();
+  const { adminAuth } = AdminData()
   return (
     <>
       <BrowserRouter>
@@ -29,6 +33,7 @@ function App() {
           <Route path='/register' element= { isAuth ? <Home/> : <Register />} />
           <Route path='/verify' element= { isAuth ? <Home/> : <Verify />} />
           <Route path='/dashboard' element= { isAuth ? <Dashboard/> : <Verify />} />
+          <Route path="/admin/dashboard" element={adminAuth ? <AdminDashboard /> : <Navigate to="/login" />} />
 
 
         </Routes>

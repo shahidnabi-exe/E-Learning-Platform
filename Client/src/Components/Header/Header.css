@@ -37,3 +37,15 @@ header {
         }   
     }
 }
+.logout-btn {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  color: #8a4baf;
+}

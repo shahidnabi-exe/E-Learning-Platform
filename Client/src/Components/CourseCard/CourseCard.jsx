@@ -1,6 +1,6 @@
 import React from 'react'
 import './CourseCard.css'
-import { server } from '../../main'
+import { server } from '../../config/server.js'
 
 function CourseCard({ course }) {
   const imageUrl = `${server}/${course.image.replace(/\\/g, "/")}`;

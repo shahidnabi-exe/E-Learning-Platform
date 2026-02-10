@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from 'axios'
-import { server } from "../main";
-const UserContext = createContext();
+import { server } from "../config/server.js";
 import toast, {Toaster} from 'react-hot-toast';
 
+const UserContext = createContext(); 
 export const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);

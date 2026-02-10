@@ -1,0 +1,25 @@
+.admin-dashboard {
+  padding: 60px;
+}
+
+.admin-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.admin-card {
+  padding: 30px;
+  background: #1e1e2f;
+  color: white;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.admin-card:hover {
+  background: #8a4baf;
+  transform: translateY(-5px);
+}
