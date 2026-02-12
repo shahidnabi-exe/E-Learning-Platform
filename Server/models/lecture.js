@@ -20,7 +20,7 @@ const schema = new mongoose.Schema({
     course: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "Courses",
+        ref: "Course",
     },
 
     createdAt: {

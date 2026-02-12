@@ -8,15 +8,15 @@ function AdminDashboard() {
 
       <div className="admin-actions">
         <Link to="/admin/create-course" className="admin-card">
-          ➕ Create Course
+           Create Course
         </Link>
 
         <Link to="/admin/courses" className="admin-card">
-          📚 Manage Courses
+           Manage Courses
         </Link>
 
         <Link to="/admin/stats" className="admin-card">
-          📊 Platform Stats
+          Platform Stats
         </Link>
       </div>
     </div>

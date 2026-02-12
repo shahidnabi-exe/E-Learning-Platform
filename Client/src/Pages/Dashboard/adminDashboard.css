@@ -1,5 +1,8 @@
 .admin-dashboard {
   padding: 60px;
+  display: flex;
+  justify-content: center;
+  
 }
 
 .admin-actions {
