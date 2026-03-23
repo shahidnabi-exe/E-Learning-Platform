@@ -7,6 +7,10 @@ export const register = async (req, res) => {
   try {
     const { email, name, password } = req.body;
 
+    if (!name || !email || !password) {
+          return res.status(400).json({ message: "All fields required" })
+      }
+
     // Check if user already exists
     let user = await User.findOne({ email });
     if (user) {

@@ -7,7 +7,7 @@ export const adminLogin = async (req, res) => {
     const { email, password } = req.body;
 
     // Fixed admin credentials
-    if (email !== "ahmed@gmail" || password !== "112233") {
+    if (email !== "ahmed@gmail.com" || password !== "112233") {
       return res.status(401).json({
         message: "Invalid admin credentials",
       });

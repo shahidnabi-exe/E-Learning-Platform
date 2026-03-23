@@ -13,7 +13,7 @@ export const CourseContextProvider = ( { children }) => {
         try{
             const { data } = await axios.get(`${server}/api/course/all`)
 
-            setCourses(data.courses)
+            setCourses(data.course)
 
         }catch(error) {
             console.log(error);
@@ -49,7 +49,7 @@ export const CourseContextProvider = ( { children }) => {
         fetchMyCourse()
     }, [])
     
-    return <CourseContext.Provider value={{courses, fetchCourses, fetchCourse, myCourse, fetchMyCourse}} >
+    return <CourseContext.Provider value={{courses, fetchCourses, fetchCourse, myCourse, fetchMyCourse}}>        
         {children} 
         </CourseContext.Provider>
 }

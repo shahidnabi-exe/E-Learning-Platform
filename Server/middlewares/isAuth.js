@@ -3,7 +3,7 @@ import { User } from '../models/user.js';
 
 export const isAuth = async (req, res, next) => {
     try {
-        // console.log("HEADERS RECEIVED:", req.headers); // 👈 Add this line
+        // console.log("HEADERS RECEIVED:", req.headers); 
 
         const authHeader = req.headers.authorization;
 
