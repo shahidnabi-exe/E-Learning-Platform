@@ -7,8 +7,10 @@ import { AdminData } from "../../Context/AdminContext";
 const Header = () => {
   const navigate = useNavigate();
 
-  const { isAuth, logoutUser } = UserData();     // student
-  const { adminAuth, logoutAdmin } = AdminData(); // admin
+  const { isAuth, user, logoutUser } = UserData();     // student / instructor
+  const { adminAuth, logoutAdmin } = AdminData();        // admin
+
+  const isInstructor = isAuth && user?.role === "instructor";
 
   return (
     <header>
@@ -29,8 +31,19 @@ const Header = () => {
           </>
         )}
 
+        {/* INSTRUCTOR */}
+        {!adminAuth && isInstructor && (
+          <>
+            <Link to="/account">Account</Link>
+            <Link to="/instructor/dashboard">Instructor Dashboard</Link>
+            <button onClick={() => logoutUser(navigate)} className="logout-btn">
+              Logout
+            </button>
+          </>
+        )}
+
         {/* STUDENT */}
-        {!adminAuth && isAuth && (
+        {!adminAuth && isAuth && !isInstructor && (
           <>
             <Link to="/account">Account</Link>
             <Link to="/dashboard">Dashboard</Link>

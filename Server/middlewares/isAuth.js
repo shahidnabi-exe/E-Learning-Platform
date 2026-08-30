@@ -45,3 +45,18 @@ export const isAdmin = async (req, res, next) => {
         });
     }
 }
+
+export const isInstructor = async (req, res, next) => {
+    try {
+        if (req.user.role !== 'instructor' && req.user.role !== 'admin') {
+            return res.status(403).json({
+                message: "Access denied, instructor only",
+            });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
+        });
+    }
+}

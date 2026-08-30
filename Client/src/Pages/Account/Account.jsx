@@ -3,20 +3,15 @@ import { MdDashboard } from "react-icons/md";
 import './account.css'
 import { IoMdLogOut } from "react-icons/io";
 import { UserData } from '../../Context/UserContext';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 
 function Account({user}) {
-    const { setIsAuth, setUser } = UserData();
+    const { logoutUser } = UserData();
     const navigate = useNavigate();
 
     const logoutHandler = () => {
-        localStorage.clear()
-        setUser([])
-        setIsAuth(false)
-        toast.success("Logged Out Successfully")
-        navigate('/login')
+        logoutUser(navigate)
     }
   return (
     <div>

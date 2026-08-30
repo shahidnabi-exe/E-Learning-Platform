@@ -1,0 +1,90 @@
+.course-detail {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.course-detail-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.lecture-list {
+  margin-top: 2rem;
+}
+
+.lecture-item {
+  padding: 0.75rem 1rem;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.lecture-item:hover {
+  background: #f5f5f5;
+}
+
+.done-badge {
+  color: #28a745;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+}
+
+.progress-bar-wrap {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.progress-bar-track {
+  flex: 1;
+  height: 10px;
+  background: #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #6a5ce4;
+  transition: width 0.2s ease;
+}
+
+.star-input {
+  font-size: 1.6rem;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.star-input .star {
+  color: #ddd;
+}
+
+.star-input .star.filled {
+  color: #f5b301;
+}
+
+.review-section textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+}
+
+.review-section,
+.review-list {
+  margin-top: 2rem;
+}
+
+.review-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}

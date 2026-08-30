@@ -13,7 +13,7 @@ export const CourseContextProvider = ( { children }) => {
         try{
             const { data } = await axios.get(`${server}/api/course/all`)
 
-            setCourses(data.course)
+            setCourses(data.courses)
 
         }catch(error) {
             console.log(error);
@@ -23,7 +23,7 @@ export const CourseContextProvider = ( { children }) => {
     async function fetchCourse(id) {
         try{
             const { data } = await axios.get(`${server}/api/course/${id}`)
-            setCourses(data.courses)
+            setCourses(data.course)
 
         } catch(error) {
             console.log(error);
@@ -38,7 +38,7 @@ export const CourseContextProvider = ( { children }) => {
                 }
 
             })
-            setMyCourse(data.myCourse)
+            setMyCourse(data.courses)
         }catch(error) {
             console.log(error);
         }

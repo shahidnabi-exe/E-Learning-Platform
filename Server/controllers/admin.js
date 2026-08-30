@@ -7,15 +7,13 @@ import {User} from '../models/user.js'
 
 export const createCourse = async (req, res) => {
   try {
-    const { title, description, instructor, duration, category, price, createdBy } = req.body;
+    const { title, description, instructor, duration, category, price } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "Thumbnail image is required" });
     }
 
     const image = req.file.path;
-    // console.log(title, description, instructor, duration, category, price, createdBy)
-    console.log(req.body)
     const course = new Course({
       title,
       description,
@@ -24,7 +22,8 @@ export const createCourse = async (req, res) => {
       duration,
       category,
       price,
-      createdBy,
+      createdBy: req.user._id,
+      status: "approved",
     });
 
     await course.save();
@@ -133,4 +132,48 @@ export const getAllStats = async(req, res) => {
     stats,
   })
 }
+
+// List all courses instructors have submitted that are awaiting review
+export const getPendingCourses = async (req, res) => {
+  try {
+    const courses = await Course.find({ status: "pending" })
+      .populate("createdBy", "name email")
+      .sort({ createdAt: 1 });
+
+    res.json({ courses });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Admin approves or rejects a submitted course
+export const reviewCourse = async (req, res) => {
+  try {
+    const { decision, rejectionReason } = req.body; // decision: "approved" | "rejected"
+
+    if (!["approved", "rejected"].includes(decision)) {
+      return res.status(400).json({
+        message: "decision must be either 'approved' or 'rejected'",
+      });
+    }
+
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: "No course with this id" });
+    }
+
+    course.status = decision;
+    course.rejectionReason = decision === "rejected" ? rejectionReason || "" : "";
+
+    await course.save();
+
+    res.json({
+      message: `Course ${decision}`,
+      course,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 

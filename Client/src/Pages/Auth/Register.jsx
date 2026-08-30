@@ -11,15 +11,42 @@ function Register() {
     const[email, setEmail] = useState('')
     const[password, setPassword] = useState('')
     const[name, setName] = useState('')
+    const[role, setRole] = useState('student')
 
     const submitHandler = async(e) => {
         e.preventDefault();
-        await registerUser(name, email, password, navigate)
+        await registerUser(name, email, password, role, navigate)
     }
   return (
      <div className="auth-page">
         <div className="auth-form">
             <h2>Register</h2>
+
+            <label className="role-title">Register as</label>
+            <div className="role-selector">
+                <label className={role === "student" ? "active" : ""}>
+                    <input
+                        type="radio"
+                        name="role"
+                        value="student"
+                        checked={role === "student"}
+                        onChange={() => setRole("student")}
+                    />
+                    Student
+                </label>
+
+                <label className={role === "instructor" ? "active" : ""}>
+                    <input
+                        type="radio"
+                        name="role"
+                        value="instructor"
+                        checked={role === "instructor"}
+                        onChange={() => setRole("instructor")}
+                    />
+                    Instructor
+                </label>
+            </div>
+
             <form onSubmit={submitHandler}>
                 <label htmlFor="name">Name</label>
                 <input 

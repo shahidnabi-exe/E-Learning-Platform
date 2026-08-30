@@ -37,13 +37,14 @@ export const UserContextProvider = ({ children }) => {
 
         }
     
-    async function registerUser(name, email, password, navigate) {
+    async function registerUser(name, email, password, role, navigate) {
         setBtnLoading(true);
         try{
             const { data } = await axios.post(`${server}/api/user/register`, {
                 name,
                 email, 
                 password,
+                role,
             });
  
             toast.success(data.message);
@@ -60,6 +61,14 @@ export const UserContextProvider = ({ children }) => {
             }
         }
     
+    function logoutUser(navigate) {
+        localStorage.clear();
+        setUser(null);
+        setIsAuth(false);
+        toast.success("Logged Out Successfully");
+        if (navigate) navigate('/login');
+    }
+
    async function fetchUser() {
     try {
         const token = localStorage.getItem("token");
@@ -85,7 +94,7 @@ export const UserContextProvider = ({ children }) => {
     }, [])
         
     return <UserContext.Provider 
-        value = {{ user, setUser, setIsAuth, isAuth, loginUser, btnLoading, loading, registerUser,
+        value = {{ user, setUser, setIsAuth, isAuth, loginUser, btnLoading, loading, registerUser, logoutUser,
         }}>
             {children}  
             <Toaster/>

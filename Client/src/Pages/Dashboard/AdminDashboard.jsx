@@ -7,16 +7,12 @@ function AdminDashboard() {
       <h2>Admin Dashboard</h2>
 
       <div className="admin-actions">
+        <Link to="/admin/pending-courses" className="admin-card">
+          Review Pending Courses
+        </Link>
+
         <Link to="/admin/create-course" className="admin-card">
-           Create Course
-        </Link>
-
-        <Link to="/admin/courses" className="admin-card">
-           Manage Courses
-        </Link>
-
-        <Link to="/admin/stats" className="admin-card">
-          Platform Stats
+          Create Course
         </Link>
       </div>
     </div>

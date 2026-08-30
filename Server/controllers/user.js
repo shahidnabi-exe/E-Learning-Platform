@@ -5,11 +5,15 @@ import jwt from "jsonwebtoken";
 // ---------------------- REGISTER ----------------------
 export const register = async (req, res) => {
   try {
-    const { email, name, password } = req.body;
+    const { email, name, password, role } = req.body;
 
     if (!name || !email || !password) {
           return res.status(400).json({ message: "All fields required" })
       }
+
+    // Public registration can only create students or instructors — never admins
+    const allowedRoles = ["student", "instructor"];
+    const finalRole = allowedRoles.includes(role) ? role : "student";
 
     // Check if user already exists
     let user = await User.findOne({ email });
@@ -27,6 +31,7 @@ export const register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: finalRole,
     });
     await user.save();
     

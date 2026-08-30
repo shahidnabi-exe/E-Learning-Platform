@@ -4,7 +4,7 @@ import { User } from "../models/user.js";
 
 
 export const getAllCourses = async(req, res) => {
-    const courses = await Course.find();
+    const courses = await Course.find({ status: "approved" });
 
     res.json({
         courses,
@@ -17,6 +17,30 @@ export const getSingleCourse = async(req, res) => {
     res.json({
         course,
     });
+}
+
+// Student enrolls in a course (free enrollment — no payment flow yet)
+export const enrollInCourse = async (req, res) => {
+    try {
+        const course = await Course.findById(req.params.id);
+
+        if (!course || course.status !== "approved") {
+            return res.status(404).json({ message: "Course not found" });
+        }
+
+        const user = await User.findById(req.user._id);
+
+        if (user.subscription.includes(course._id.toString())) {
+            return res.status(400).json({ message: "Already enrolled in this course" });
+        }
+
+        user.subscription.push(course._id);
+        await user.save();
+
+        res.json({ message: "Enrolled successfully", subscription: user.subscription });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 export const fetchLectures = async(req, res) => {

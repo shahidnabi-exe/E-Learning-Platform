@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import "./Auth.css";
-import { Link, useNavigate } from "react-router-dom";
-import { UserData } from "../../Context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { AdminData } from "../../Context/AdminContext";
 
-const Login = () => {
+const AdminLogin = () => {
   const navigate = useNavigate();
-
-  const { loginUser, btnLoading } = UserData();
+  const { loginAdmin, btnLoading } = AdminData();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await loginUser(email, password, navigate);
+    await loginAdmin(email, password, navigate);
   };
 
   return (
     <div className="auth-page">
       <div className="auth-form">
-        <h2>Login</h2>
+        <h2>Admin Login</h2>
 
         <form onSubmit={submitHandler}>
           <label>Email</label>
@@ -38,21 +37,15 @@ const Login = () => {
             required
           />
 
-          <button
-            type="submit"
-            className="common-btn"
-            disabled={btnLoading}
-          >
+          <button type="submit" className="common-btn" disabled={btnLoading}>
             {btnLoading ? "Please wait..." : "Login"}
           </button>
         </form>
 
-        <p>
-          Don’t have an account? <Link to="/register">Register</Link>
-        </p>
+        <p className="admin-note">Admin access only</p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default AdminLogin;
