@@ -2,40 +2,45 @@ import { User } from '../models/user.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const sanitizeUser = (user) => ({
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  subscription: user.subscription || [],
+  createdAt: user.createdAt,
+  updatedAt: user.updatedAt,
+});
+
 // ---------------------- REGISTER ----------------------
 export const register = async (req, res) => {
   try {
     const { email, name, password, role } = req.body;
 
     if (!name || !email || !password) {
-          return res.status(400).json({ message: "All fields required" })
-      }
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
-    // Public registration can only create students or instructors — never admins
     const allowedRoles = ["student", "instructor"];
     const finalRole = allowedRoles.includes(role) ? role : "student";
 
-    // Check if user already exists
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase().trim() });
     if (user) {
       return res.status(400).json({
-        message: "User already exists",
+        message: "An account with this email already exists",
       });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user and save to DB
     user = new User({
-      name,
-      email,
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
       role: finalRole,
     });
     await user.save();
     
-    // Generate JWT token
     const token = jwt.sign(
       { _id: user._id },
       process.env.JWT_SECRET,
@@ -43,15 +48,15 @@ export const register = async (req, res) => {
     );
 
     res.status(201).json({
-      message: "User registered successfully",
+      message: "Account created successfully",
       token,
-      user,
+      user: sanitizeUser(user),
     });
 
   } catch (error) {
     console.error("Registration Error:", error.message);
     return res.status(500).json({
-      message: error.message,
+      message: error.message || "Registration failed",
     });
   }
 };
@@ -61,23 +66,24 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
     if (!user) {
       return res.status(400).json({
-        message: "User not found",
+        message: "Invalid email or password",
       });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({
-        message: "Invalid credentials",
+        message: "Invalid email or password",
       });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { _id: user._id },
       process.env.JWT_SECRET,
@@ -85,14 +91,14 @@ export const loginUser = async (req, res) => {
     );
 
     res.json({
-      message: `Welcome back ${user.name}`,
+      message: `Welcome back, ${user.name}!`,
       token,
-      user,
+      user: sanitizeUser(user),
     });
 
   } catch (error) {
     res.status(500).json({
-      message: error.message,
+      message: error.message || "Login failed",
     });
   }
 };
@@ -100,11 +106,68 @@ export const loginUser = async (req, res) => {
 // ---------------------- MY PROFILE ----------------------
 export const myProfile = async (req, res) => {
   try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ user: sanitizeUser(user) });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ---------------------- UPDATE PROFILE ----------------------
+export const updateProfile = async (req, res) => {
+  try {
+    const { name } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ message: "Name cannot be empty" });
+    }
+
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.json({ user });
+
+    user.name = name.trim();
+    await user.save();
+
+    res.json({
+      message: "Profile updated successfully",
+      user: sanitizeUser(user),
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ---------------------- CHANGE PASSWORD ----------------------
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Current and new password are required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters long" });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Incorrect current password" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: "Password updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

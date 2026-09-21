@@ -3,8 +3,6 @@ import { User } from '../models/user.js';
 
 export const isAuth = async (req, res, next) => {
     try {
-        // console.log("HEADERS RECEIVED:", req.headers); 
-
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -13,27 +11,42 @@ export const isAuth = async (req, res, next) => {
             });
         }
 
-        const token = authHeader.split(" ")[1]; //Splits the string "Bearer <token>" on the space and extracts the token part.
-        if (!token) {
+        const token = authHeader.split(" ")[1];
+        if (!token || token === "null" || token === "undefined") {
             return res.status(401).json({
-                message: "No token provided, authorization denied",
+                message: "No valid token provided, authorization denied",
             });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // verify and decode the token using a secret key stored in your environment (.env) file.
-        req.user = await User.findById(decoded._id); //Finds the user from the database using the ID obtained from the token payload.
+        let decoded;
+        try {
+            decoded = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (jwtError) {
+            return res.status(401).json({
+                message: "Token is invalid or expired. Please log in again.",
+            });
+        }
+
+        const user = await User.findById(decoded._id);
+        if (!user) {
+            return res.status(401).json({
+                message: "User session is invalid. Account not found.",
+            });
+        }
+
+        req.user = user;
         next();
 
     } catch (error) {
         return res.status(500).json({
-            message: error.message,
+            message: error.message || "Authentication error",
         });
     }
 };
 
 export const isAdmin = async (req, res, next) => {
     try {
-        if (req.user.role !== 'admin') {
+        if (!req.user || req.user.role !== 'admin') {
             return res.status(403).json({
                 message: "Access denied, admin only",
             });
@@ -44,11 +57,11 @@ export const isAdmin = async (req, res, next) => {
             message: error.message,
         });
     }
-}
+};
 
 export const isInstructor = async (req, res, next) => {
     try {
-        if (req.user.role !== 'instructor' && req.user.role !== 'admin') {
+        if (!req.user || (req.user.role !== 'instructor' && req.user.role !== 'admin')) {
             return res.status(403).json({
                 message: "Access denied, instructor only",
             });
@@ -59,4 +72,4 @@ export const isInstructor = async (req, res, next) => {
             message: error.message,
         });
     }
-}
+};

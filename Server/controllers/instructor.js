@@ -2,6 +2,21 @@ import { Course } from "../models/course.js";
 import { Lecture } from "../models/lecture.js";
 import { User } from "../models/user.js";
 import { Review } from "../models/review.js";
+import { Comment } from "../models/comment.js";
+import { Note } from "../models/note.js";
+import { Progress } from "../models/progress.js";
+import fs from "fs";
+
+const safeUnlink = (filePath) => {
+  if (!filePath) return;
+  try {
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  } catch (err) {
+    console.warn("Could not delete file:", filePath, err.message);
+  }
+};
 
 // Instructor creates a course — it always starts as "pending" and needs admin approval
 export const createCourseAsInstructor = async (req, res) => {
@@ -12,16 +27,16 @@ export const createCourseAsInstructor = async (req, res) => {
       return res.status(400).json({ message: "Thumbnail image is required" });
     }
 
-    const image = req.file.path;
+    const image = req.file.path.replace(/\\/g, "/");
 
     const course = new Course({
       title,
       description,
       instructor: req.user.name,
       image,
-      duration,
+      duration: Number(duration),
       category,
-      price,
+      price: Number(price),
       createdBy: req.user._id,
       status: "pending",
     });
@@ -29,7 +44,7 @@ export const createCourseAsInstructor = async (req, res) => {
     await course.save();
 
     res.status(201).json({
-      message: "Course submitted for admin review",
+      message: "Course submitted for admin review successfully!",
       course,
     });
   } catch (error) {
@@ -64,10 +79,12 @@ export const addLectureAsInstructor = async (req, res) => {
       return res.status(400).json({ message: "Lecture video is required" });
     }
 
+    const video = file.path.replace(/\\/g, "/");
+
     const lecture = await Lecture.create({
       title,
       description,
-      video: file.path,
+      video,
       course: course._id,
     });
 
@@ -75,6 +92,36 @@ export const addLectureAsInstructor = async (req, res) => {
       message: "Lecture added successfully",
       lecture,
     });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Instructor deletes a lecture from their course
+export const deleteLectureAsInstructor = async (req, res) => {
+  try {
+    const lecture = await Lecture.findById(req.params.id);
+    if (!lecture) {
+      return res.status(404).json({ message: "Lecture not found" });
+    }
+
+    const course = await Course.findById(lecture.course);
+    if (!course || course.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "You do not own this lecture's course" });
+    }
+
+    safeUnlink(lecture.video);
+
+    await Comment.deleteMany({ lecture: lecture._id });
+    await Note.deleteMany({ lecture: lecture._id });
+    await Progress.updateMany(
+      { course: lecture.course },
+      { $pull: { completedLectures: lecture._id } }
+    );
+
+    await lecture.deleteOne();
+
+    res.json({ message: "Lecture deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -106,7 +153,7 @@ export const getMyCourseLectures = async (req, res) => {
       return res.status(403).json({ message: "You do not own this course" });
     }
 
-    const lectures = await Lecture.find({ course: course._id });
+    const lectures = await Lecture.find({ course: course._id }).sort({ createdAt: 1 });
 
     res.json({ lectures });
   } catch (error) {

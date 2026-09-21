@@ -1,48 +1,162 @@
-.dashboard {
-  padding: 40px 20px;
-  background-color: #f9f9f9;
-  min-height: 80vh;
-}
+/* ==========================================================================
+   STUDENT DASHBOARD STYLES
+   ========================================================================== */
 
-.dashboard h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.course-container {
+.student-dashboard-page {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-.progress-course-card {
-  width: 260px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 1rem;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+/* Greeting Banner */
+.student-greeting-banner {
+  background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-elevated) 100%);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.progress-course-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 6px;
+.student-greeting-banner::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  top: -50px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.1) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.greeting-text h1 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
   margin-bottom: 0.5rem;
 }
 
-.progress-course-card .progress-bar-track {
-  height: 8px;
-  background: #eee;
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 0.5rem 0 0.25rem;
+.greeting-text p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
 }
 
-.progress-course-card .progress-bar-fill {
+/* Stats Metrics Grid */
+.student-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Continue Learning Hero Card */
+.continue-hero-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border-gold);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 240px 1fr auto;
+  gap: 2rem;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.continue-hero-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-elevated);
+}
+
+.continue-hero-thumb img {
+  width: 100%;
   height: 100%;
-  background: #6a5ce4;
+  object-fit: cover;
+}
+
+.continue-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.continue-hero-info h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+/* Enrolled Courses Grid */
+.dashboard-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-section-header h2 {
+  font-size: 1.4rem;
+}
+
+.enrolled-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.enrolled-course-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.enrolled-course-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--surface-border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.enrolled-card-thumb {
+  width: 100%;
+  height: 160px;
+  background: var(--surface-elevated);
+  position: relative;
+}
+
+.enrolled-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.enrolled-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.enrolled-card-body h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .continue-hero-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .continue-hero-thumb {
+    max-width: 320px;
+    margin: 0 auto;
+  }
 }

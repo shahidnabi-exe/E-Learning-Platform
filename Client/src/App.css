@@ -1,27 +1,31 @@
-body{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+@import "./theme/theme.css";
+
+/* Backwards-compatibility bridge for any residual legacy buttons */
+.common-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--gold-primary);
+  color: var(--gold-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  text-decoration: none;
 }
 
-.common-btn {
-  background-color: #8a4baf;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color .3s ease;
-  text-align: center;
-  margin-top: 10px;
+.common-btn:hover:not(:disabled) {
+  background-color: var(--gold-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-gold);
+}
 
-  &:hover {
-    background-color: #8a4baf;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
+.common-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

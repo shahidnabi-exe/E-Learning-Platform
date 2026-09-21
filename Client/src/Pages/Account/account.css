@@ -1,30 +1,84 @@
-.profile {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0,1);
-    width: 30%;
-    margin: 185px auto;
-      
+.account-settings-page {
+  max-width: 900px;
+  margin: 2rem auto 5rem;
+  padding: 0 1.5rem;
+}
 
-    @media (max-width: 768px) {
-        padding: 10px;
-        width: 80%;
-        margin: 90px auto;
+.account-header {
+  margin-bottom: 2rem;
+}
 
-    }
+.account-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
 
-    .profile-info {
-        text-align: left;
-        margin-top: 15px;
+.account-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-        p {
-            margin-bottom: 10px;
-            color: #333;
+.profile-hero-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
 
-            strong {
-                color: #8a4baf;            
-            }
-        }
-    }
+.profile-user-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.profile-large-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-elevated);
+  border: 2px solid var(--surface-border-gold);
+  color: var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-gold);
+}
+
+.profile-user-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-user-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.settings-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+}
+
+.settings-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.settings-card-head h3 {
+  font-size: 1.2rem;
 }

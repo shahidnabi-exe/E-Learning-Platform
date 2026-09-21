@@ -1,97 +1,83 @@
-.about {
-  padding: 120px 20px;
-  background: linear-gradient(180deg, #ffffff, #f9f7fb);
+.about-page-wrap {
+  padding: 5rem 1.5rem 7rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.about-content {
-  max-width: 1000px;
-  margin: auto;
+.about-header-centered {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 4rem;
+}
+
+.about-header-centered h1 {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  margin-bottom: 1.25rem;
+}
+
+.about-header-centered h1 span {
+  color: var(--gold-primary);
+}
+
+.about-header-centered p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.about-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.about-mission-box {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: all var(--transition-normal);
+}
+
+.about-mission-box:hover {
+  border-color: var(--surface-border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.about-icon-emblem {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--gold-dim);
+  color: var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-values-banner {
+  background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-elevated) 100%);
+  border: 1px solid var(--surface-border-gold);
+  border-radius: var(--radius-xl);
+  padding: 3.5rem 2.5rem;
   text-align: center;
 }
 
-.about-tag {
-  display: inline-block;
-  font-size: 18px;
-  letter-spacing: 2px;
-  color: #8a4baf;
-  font-weight: 600;
-  margin-bottom: 16px;
+.about-values-banner h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
-.about-content h2 {
-  font-size: 42px;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 20px;
-}
-
-.about-content h2 span {
-  color: #8a4baf;
-}
-
-.about-intro {
-  font-size: 18px;
-  color: #4b5563;
-  line-height: 1.8;
-  max-width: 750px;
-  margin: 0 auto 50px;
-}
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
-  margin-top: 40px;
-}
-
-.about-card {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  transition: 
-    background-color 0.35s ease,
-    transform 0.35s ease,
-    box-shadow 0.35s ease,
-    color 0.35s ease;
-  cursor: pointer;
-}
-
-/* Hover effect */
-.about-card:hover {
-  background-color: #8a4baf; /* primary accent */
-  transform: translateY(-10px);
-  box-shadow: 0 25px 45px rgba(138, 75, 175, 0.35);
-}
-
-/* Text styling */
-.about-card h4 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 12px;
-  transition: color 0.35s ease;
-}
-
-.about-card p {
-  font-size: 15px;
-  color: #4b5563;
+.about-values-banner p {
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
   line-height: 1.7;
-  transition: color 0.35s ease;
-}
-
-/* Text color change on hover */
-.about-card:hover h4,
-.about-card:hover p {
-  color: #ffffff;
-}
-
-.about-footer {
-  font-size: 16px;
-  color: #374151;
-  max-width: 800px;
-  margin: auto;
-}
-
-.about-footer strong {
-  color: #8a4baf;
+  font-size: 1.05rem;
 }
