@@ -9,7 +9,7 @@ import fs from 'fs';
 
 const app = express();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;;
 
 // Multer writes directly into this folder and does NOT create it automatically —
 // without this, course/lecture uploads fail with an unhelpful generic error.
@@ -37,7 +37,14 @@ import progressRoutes from './routes/progress.js';
 import cors from 'cors'
 //middleware
 app.use(express.json()); // to parse JSON bodies
-app.use(cors()); // used for cross request, helps in frontend to fetch backend api
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://e-learning-platform-4lfv.vercel.app" 
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+})); // used for cross request, helps in frontend to fetch backend api
 
 // using routes
 app.use('/api', userRoutes);
